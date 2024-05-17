@@ -19,11 +19,14 @@
 body::before {
   content: "";
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: url("https://img.freepik.com/free-vector/school-hand-drawn-flat-illustration_23-2149592004.jpg?size=626&ext=jpg&ga=GA1.1.1656379560.1709950947&semt=ais_user"), #1a7dc3;
+  background: url("../Image/image3.jpg"), #090909;
   background-position: center;
   background-size: cover;
+  z-index: -1; /
 }
 
 .wrapper {
@@ -41,10 +44,14 @@ form {
   flex-direction: column;
 }
 
-h2 {
+.h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #fff;
+ 
+ 
+}
+.l1{
+  color: #000;
 }
 
 .input-field {
@@ -105,6 +112,7 @@ h2 {
 .wrapper a {
   color: #efefef;
   text-decoration: none;
+  
 }
 
 .wrapper a:hover {

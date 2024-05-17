@@ -3,40 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Website Layout | CodingLab</title> 
+    <title>AMC International School</title>
     <link rel="stylesheet" href="../css/home.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <style>
         body {
-            background-image: url('../Image/image1.jpeg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            background: url('../Image/image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
         }
+        nav {
+           
+            padding: 10px;
+        }
+        .title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
     </style>
 </head>
 <body>
 <nav>
     <div class="menu">
         <div class="logo">
-            <a href="#">AMC International School</a>
+            <a href="home.html">AMC International School</a>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="../page/login.php">Login</a></li>
         </ul>
     </div>
 </nav>
 <div class="center">
     <div class="title">Welcome to AMC International School</div>
-    <div class="btns">
-        <button>Learn More</button>
-     
+    <div class="btns" href="../page/login.php">
+        <button >Learn More</button>
     </div>
 </div>
 </body>

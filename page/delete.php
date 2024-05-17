@@ -1,34 +1,20 @@
 <?php
-      require_once('config.php');
-      
-      if (isset($_POST['delete'])) {
-        $id = $_POST['id'];
-        
-        // Delete the user from the database using the provided ID
-        $sql = "DELETE FROM users WHERE id ='$id'";
-      
-        if ($conn->query($sql) === TRUE) {
-          // User deleted successfully
-          echo "User deleted successfully";
-        } else {
-          echo "Error deleting user: " . $conn->error;
-        }
-      }
+include 'Connection.php';
 
-      if (isset($_GET['id'])) {
-        $id=$_GET['id'];
-        
-        
-        // Delete the user from the database using the provided ID
-        $sql = "DELETE FROM `notifications` WHERE `id` ='$id'";
-      
-        if ($conn->query($sql) === TRUE) {
-          // User deleted successfully
-          header('LOCATION:Notifications.php');
-        } else {
-          echo "Error deleting user: " . $conn->error;
-        }
-        
-      }
+if(isset($_POST['delete'])){
+    $id = mysqli_real_escape_string($conn, $_POST['id']);
 
-    ?>
+    if($conn){
+        $sql = "DELETE FROM subject_m WHERE id='$id'";
+        if(mysqli_query($conn, $sql)){
+            header("Location:subject.php?delete=success");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    } else {
+        echo "Database connection failed: " . mysqli_connect_error();
+    }
+    mysqli_close($conn);
+}
+?>

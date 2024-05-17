@@ -1,39 +1,21 @@
 <?php
-require_once('config.php');
-if (isset($_GET['id'])) {
-        $id=$_GET['id'];  ?>
-        
+require_once('Connection.php'); 
+if(isset($_POST['update'])){
+    $id = mysqli_real_escape_string($conn, $_POST['id']);
+    $moduleName = mysqli_real_escape_string($conn, $_POST['moduleName']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
 
-        <form action="#" class="formContainer" method="POST">
-          <span color="back"><h2>Update</h2></span>
-          <input type="hidden" name="id" id="deleteUserId" value="<?=$id;?>" />
-          <input type="text" name="msg">Message
-          <p id="delete"></p>
-          <button type="submit"  name="update" class="btnd">Update</button>
-          <button type="button" class="cancel" onclick="deleteUser(id)">Close</button>
-        </form>
-        
-      <?php  
-        
-      }
-
-      if (isset($_POST['update'])) {
-        $id = $_POST['id'];
-        $msg = $_POST['msg'];
-
-        
-        // Delete the user from the database using the provided ID
-        $sql = "UPDATE `notifications` SET`message`='$msg' WHERE `id`='$id' ";
-      
-        if ($conn->query($sql) === TRUE) {
-          // User deleted successfully
-          header('LOCATION:Notifications.php');
+    if($conn){
+        $sql = "UPDATE subject_m SET module='$moduleName', description='$description' WHERE id='$id'";
+        if(mysqli_query($conn, $sql)){
+            header("Location: subject.php?update=success");
+            exit();
         } else {
-          echo "Error deleting user: " . $conn->error;
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
-      }
-
-
-
-
-      ?>
+    } else {
+        echo "Database connection failed: " . mysqli_connect_error();
+    }
+    mysqli_close($conn);
+}
+?>

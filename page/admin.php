@@ -24,8 +24,8 @@
             <a href="#">AMC International School</a>
           </div>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="admin.php">Home</a></li>
+            <li><a href="../html/about.html">About</a></li>
             <li><a href="#">Contact</a></li>
           </ul>
         </div>

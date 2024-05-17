@@ -1,6 +1,31 @@
 <?php
 include 'Connection.php';
+
+if(isset($_POST['create'])){
+
+    // Sanitize the input to prevent SQL Injection
+    $moduleName = mysqli_real_escape_string($conn, $_POST["moduleName"]);
+    $Description = mysqli_real_escape_string($conn, $_POST['description']);
+
+    // Check if the connection is established
+    if($conn){
+        // SQL query to insert data into the database
+        $sql = "INSERT INTO subject_m (module, description) VALUES ('$moduleName', '$Description')";
+
+        if(mysqli_query($conn, $sql)){
+            // Redirect to subject.php with a success message
+            header("Location: subject.php?create=success");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    } else {
+        echo "Database connection failed: " . mysqli_connect_error();
+    }
+    mysqli_close($conn);
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -11,14 +36,11 @@ include 'Connection.php';
     <title>Meta Page</title>
     <link rel="stylesheet" href="../css/home.css"> 
     <style>
-
-
-
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        h1 {
+        h1, h2 {
             color: #333;
         }
         input[type="text"], textarea {
@@ -59,60 +81,80 @@ include 'Connection.php';
             background-color: #f44336;
             color: white;
         }
+        .formPopup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .btn {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+        .cancel {
+            background-color: #ccc;
+            color: black;
+        }
+        .btn.cancel {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
-    
-  
 </head>
-
-
-
 <body>
     <nav>
         <div class="menu">
-          <div class="logo">
-            <a href="#">AMC International School</a>
-          </div>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
+            <div class="logo">
+                <a href="#">AMC International School</a>
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
         </div>
     </nav>
-    
-      
-      <br><br><br><br><br><br>
-      <div class="updatepop">
-      <div class="formPopup" id="updatefrom">
+
+    <br><br><br><br><br><br>
+ 
+    <div class="formPopup" id="updateForm">
         <form action="update.php" class="formContainer" method="POST">
-          <h2>Update  Account</h2>
-          
-         
-         
-         <h3>First name<br> <input name="Firstname" value="<?= $getdata['u_fname'];?>"></h3>
-         <h3> Last name<br> <input name="Lastname" value="<?= $getdata['u_lname'];?>"></h3>
-         <h3>Age <br><input name="age" value="<?= $getdata['Age'];?>"><h3>
-         <input type="hidden" name="id" value="<?= $pid;?>"/>
-         <h3>Gender <br><input name="gender" value="<?= $getdata['gender'];?>"> <h3>
-            
-         <h3>Phone Number <br><input name="PhoneNumber" value="<?= $getdata['Phone_number'];?>"> <h3>
-         <h3>Email<br> <input name="Email" value="<?= $getdata['Email'];?>"> <h3>
-            
-        
-         <button type="submit" class="btn" name="submit">Update</button></a>
-          <button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+            <h2>Update Subject</h2>
+            <input type="hidden" name="id" id="update-id">
+            <label for="update-module-name">Module Name:</label>
+            <input type="text" id="update-module-name" name="moduleName" required><br>
+            <label for="update-description">Description:</label>
+            <textarea id="update-description" name="description" rows="4" required></textarea><br>
+            <button type="submit" class="btn" name="update">Update</button>
+            <button type="button" class="btn cancel" onclick="closeForm('updateForm')">Close</button>
         </form>
-      </div>
     </div>
 
-      
+    <div class="formPopup" id="deleteForm">
+        <form action="delete.php" class="formContainer" method="POST">
+            <h2>Delete Subject</h2>
+            <input type="hidden" name="id" id="delete-id">
+            <p>Are you sure you want to delete this subject?</p>
+            <button type="submit" class="btn" name="delete">Delete</button>
+            <button type="button" class="btn cancel" onclick="closeForm('deleteForm')">Close</button>
+        </form>
+    </div>
+
     <h1>Add Subject</h1>
-    <form id="meta-form">
+    <form id="meta-form" method="post" action="">
         <label for="module-name">Module Name:</label>
-        <input type="text" id="module-name" name="module-name" required><br>
+        <input type="text" id="module-name" name="moduleName" required><br>
         <label for="description">Description:</label>
         <textarea id="description" name="description" rows="4" required></textarea><br>
-        <button type="submit">Create</button>
+        <button type="submit" name="create">Submit</button>
     </form>
     <br><br>
     <h2>Subject Details</h2>
@@ -125,26 +167,44 @@ include 'Connection.php';
             </tr>
         </thead>
         <tbody>
-            <!-- Table rows will be dynamically added here -->
+            <?php
+            include 'Connection.php';
+            $result = mysqli_query($conn, "SELECT * FROM subject_m");
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['module'] . "</td>";
+                    echo "<td>" . $row['description'] . "</td>";
+                    echo '<td class="action-buttons">
+                            <button class="update-button" onclick="openUpdateForm(' . $row['id'] . ', \'' . htmlspecialchars($row['module']) . '\', \'' . htmlspecialchars($row['description']) . '\')">Update</button>
+                            <button class="delete-button" onclick="openDeleteForm(' . $row['id'] . ')">Delete</button>
+                          </td>';
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='3'>No subjects found</td></tr>";
+            }
+            mysqli_close($conn);
+            ?> 
         </tbody>
     </table>
 
     <script>
-        // JavaScript functionality for adding rows dynamically, handling updates and deletes would go here
+        function openUpdateForm(id, module, description) {
+            document.getElementById("update-id").value = id;
+            document.getElementById("update-module-name").value = module;
+            document.getElementById("update-description").value = description;
+            document.getElementById("updateForm").style.display = "block";
+        }
+
+        function openDeleteForm(id) {
+            document.getElementById("delete-id").value = id;
+            document.getElementById("deleteForm").style.display = "block";
+        }
+
+        function closeForm(formId) {
+            document.getElementById(formId).style.display = "none";
+        }
     </script>
-
-<!----- popup-->
-<div class="loginPopup">
-      <div class="formPopup" id="popupForm">
-        <form action="delete.php" class="formContainer" method="POST">
-          <h2>Delete Account</h2>
-          <input type="hidden" name="id" value="<?= $_SESSION['id'];?>" />
-          <button type="submit" class="btn">Delete</button></a>
-          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        </form>
-      </div>
-    </div>
-<!----- popup-->
-
 </body>
 </html>

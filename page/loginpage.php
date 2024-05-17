@@ -101,8 +101,11 @@ session_start();    //check for from submission
             ?>
             
             <P> <input  class="rec" type="text" name="username" placeholder="Email"></P> 
+           
             <p><input class="rec" type="password" name="password" placeholder="Password"></p>
+            
             <p class="g1"> <a href ="#">Forgot Password</a> </p>
+            
             <p><button type="submit" name="submit" class="g6"> Log In</button></p>
             
             
