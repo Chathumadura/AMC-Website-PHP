@@ -31,46 +31,13 @@ if (isset($_POST['create'])) {
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #2f4449, #050a1d);
+            background-color: #2f4449;
+            height: 100%;
+ 
         }
-        nav {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            background: #1b1b1b;
-            z-index: 10;
-            height: 60px;
-        }
-        nav .menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            color: white;
-        }
-        nav .menu .logo a {
-            text-decoration: none;
-            color: white;
-            font-size: 35px;
-        }
-        nav .menu ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        nav .menu ul li {
-            margin-left: 20px;
-        }
-        nav .menu ul li a {
-            text-decoration: none;
-            color: white;
-            font-size: 18px;
-        }
+       
         .body1 {
-            margin: 80px 20px 20px 20px; /* Add margin-top to move the content below the navbar */
+            margin: 80px 20px 20px 20px; 
         }
         h1, h2 {
             color: #fff;
@@ -106,7 +73,7 @@ if (isset($_POST['create'])) {
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            
         }
         button:hover {
             background: linear-gradient(135deg, #a777e3, #6e8efb);
@@ -148,7 +115,7 @@ if (isset($_POST['create'])) {
             cursor: pointer;
         }
         .update-button {
-            background-color: #0000FF; /* Blue color */
+             background-color: #008000f; /* Blue color */
             color: white;
         }
         .delete-button {
@@ -193,7 +160,7 @@ if (isset($_POST['create'])) {
             <ul>
                 <li><a href="admin.php">Home</a></li>
                 <li><a href="../html/about.html">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="../html/contact.html">Contact</a></li>
             </ul>
         </div>
     </nav>
