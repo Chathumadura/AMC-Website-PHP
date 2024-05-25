@@ -38,6 +38,7 @@ if(isset($_POST['signup'])){
 include '../html/header.html';
 ?>
     <div class="signup-container">
+    <div class="wrapper">
         <form action="#" method="POST" class="signup-form">
             <h2>Student Registration</h2>
             <div class="input-group">
@@ -62,6 +63,7 @@ include '../html/header.html';
             </div>
             <button type="submit" name="signup" class="btn-signup">Sign Up</button>
         </form>
+    </div>
     </div>
 </body>
 </html>

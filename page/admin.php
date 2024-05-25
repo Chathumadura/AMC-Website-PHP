@@ -8,16 +8,9 @@
   <title>Home</title>
   <link rel="stylesheet" href="../css//admin.css">
   <link rel="stylesheet" href="../css/home.css"> 
-  <style>
-    .hero-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh; /* Adjust as needed */
-    }
-  </style>
+
 </head>
-<body>
+<body >
     <nav>
         <div class="menu">
           <div class="logo">
@@ -27,6 +20,7 @@
             <li><a href="admin.php">Home</a></li>
             <li><a href="../html/about.html">About</a></li>
             <li><a href="#">Contact</a></li>
+            <li><a href="login.php">Logout</a></li>
           </ul>
         </div>
       </nav>
